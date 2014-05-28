@@ -1,5 +1,7 @@
 package com.example.myfucntest;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		System.out.println("Java安装目录:\n"+System.getProperty("java.home"));
+		System.out.println("用户的主目录:\n"+System.getProperty("user.home"));
 //		aq = new AQuery(this);
 //		
 //		aq.id(R.id.start).clicked(new OnClickListener() {
@@ -50,7 +54,11 @@ public class MainActivity extends Activity {
 //		});
 		
 		startService(new Intent(this,JWordTest.class));
+		
+		int i = Calendar.getInstance().get(Calendar.DATE);//多少号
+		int k = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);//星期几
 	}
+	
 	
 	int [] images = {R.drawable.amp1,R.drawable.amp2,R.drawable.amp3
 			,R.drawable.amp4,R.drawable.amp5,R.drawable.amp6,R.drawable.amp7};

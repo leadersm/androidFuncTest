@@ -14,6 +14,7 @@ import android.os.IBinder;
 
 import com.example.myfucntest.R;
 import com.independentsoft.office.ExtendedBoolean;
+import com.independentsoft.office.IContentElement;
 import com.independentsoft.office.Unit;
 import com.independentsoft.office.UnitType;
 import com.independentsoft.office.drawing.Extents;
@@ -74,11 +75,98 @@ public class JWordTest extends Service {
 		
 		try {
 			WordDocument doc = new WordDocument(getResources().openRawResource(R.raw.jwordtest));
+			System.out.println("size:"+doc.getTables().size());
+			doc.replace("{no.}", "12345");
+            doc.replace("{keywords}","关键词");
+
+            doc.replace("{转发增量图}", getImageRun());
+            
+            List<Table> tables = doc.getTables();
+            System.out.println("tables.size:"+tables.size());
+            
+            Table newsTable = tables.get(0);
+            for(IContentElement i : newsTable.getContentElements()){
+            	handleElement(i);
+            }
+            
+            
+            addDataToTable(newsTable);
+            
+            doc.save(outFile.getAbsolutePath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return super.onStartCommand(intent, flags, startId);
+	}
+	
+	private static void handleElement(IContentElement element) {
+		// TODO Auto-generated method stub
+		if(element.getContentElements().size()>0){
+			for(IContentElement temp:element.getContentElements()){
+				System.out.println(temp);
+				handleElement(temp);
+			}
+		}
+	}
+
+	private static void addDataToTable(Table table){
+		
+		List<TableItem> items = new ArrayList<TableItem>();
+		
+		TableItem item1 = new TableItem("排序2", 1101);
+		TableItem item2 = new TableItem("新闻指数2", 1559);
+		TableItem item3 = new TableItem("新闻标题2", 2594);
+		TableItem item4 = new TableItem("新闻来源2", 1517);
+		TableItem item5 = new TableItem("发表日期2", 1876);
+		
+		items.add(item1);
+		items.add(item2);
+		items.add(item3);
+		items.add(item4);
+		items.add(item5);
+		
+		Row row = new Row();
+		
+		for(TableItem item:items){
+			row.add(item.getCell());
+		}
+		
+		table.add(row);
+		
+	}
+	
+	private static Run getImageRun(){
+		try {
+			Picture picture = new Picture("/mnt/sdcard/test/guandian.png");
+			Unit pictureWidth = new Unit(640, UnitType.PIXEL);
+			Unit pictureHeight = new Unit(480, UnitType.PIXEL);
+
+			Offset offset = new Offset(0, 0);
+			Extents extents = new Extents(pictureWidth, pictureHeight);
+
+			picture.getShapeProperties().setPresetGeometry(
+					new PresetGeometry(ShapeType.RECTANGLE));
+			picture.getShapeProperties().setTransform2D(
+					new Transform2D(offset, extents));
+			picture.setID("1");
+			picture.setName("image.jpg");
+			
+			Inline inline = new Inline(picture);
+			inline.setSize(new DrawingObjectSize(pictureWidth, pictureHeight));
+			inline.setID("1");
+			inline.setName("Picture 1");
+			inline.setDescription("image.jpg");
+			
+			DrawingObject drawingObject = new DrawingObject(inline);
+			Run run = new Run();
+			run.add(drawingObject);
+
+			return run;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	private void yunTianYi() {
