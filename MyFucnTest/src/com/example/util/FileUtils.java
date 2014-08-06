@@ -1,4 +1,4 @@
-package com.example.myfucntest.util;
+package com.example.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

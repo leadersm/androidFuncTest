@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.myfucntest.recorder;
+package com.example.recorder;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.myfucntest.util.Constants;
-import com.example.myfucntest.util.FileUtils;
+import com.example.util.Constants;
+import com.example.util.FileUtils;
 
 public class Recorder implements OnCompletionListener, OnErrorListener
 {

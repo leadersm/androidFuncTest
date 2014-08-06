@@ -1,8 +1,8 @@
-package com.example.myfucntest.recorder;
+package com.example.recorder;
 
 import java.io.File;
 
-import com.example.myfucntest.recorder.AudioHelper.OnRecorderListener;
+import com.example.recorder.AudioHelper.OnRecorderListener;
 
 public interface AudioAction {
 

@@ -1,4 +1,4 @@
-package com.example.myfucntest.jword;
+package com.example.jword;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,9 +85,9 @@ public class JWordTest extends Service {
             System.out.println("tables.size:"+tables.size());
             
             Table newsTable = tables.get(0);
-            for(IContentElement i : newsTable.getContentElements()){
-            	handleElement(i);
-            }
+//            for(IContentElement i : newsTable.getContentElements()){
+//            	handleElement(i);
+//            }
             
             
             addDataToTable(newsTable);
@@ -138,7 +138,7 @@ public class JWordTest extends Service {
 	
 	private static Run getImageRun(){
 		try {
-			Picture picture = new Picture("/mnt/sdcard/test/guandian.png");
+			Picture picture = new Picture("/mnt/sdcard/fnews/images/sz300254_k_day.png");
 			Unit pictureWidth = new Unit(640, UnitType.PIXEL);
 			Unit pictureHeight = new Unit(480, UnitType.PIXEL);
 

@@ -1,4 +1,4 @@
-package com.example.myfucntest.recorder;
+package com.example.recorder;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.example.myfucntest.util;
+package com.example.util;
 
 import android.text.Spannable;
 import android.text.SpannableString;

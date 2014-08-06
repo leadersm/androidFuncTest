@@ -1,4 +1,4 @@
-package com.example.myfucntest.util;
+package com.example.util;
 
 public class Constants {
 
