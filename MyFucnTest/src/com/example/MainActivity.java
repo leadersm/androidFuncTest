@@ -2,29 +2,43 @@ package com.example;
 
 import java.util.Calendar;
 
-import android.app.Activity;
+import net.simonvt.menudrawer.MenuDrawer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.androidquery.AQuery;
+import com.example.mpchart.MPChartFragment;
 import com.example.myfucntest.R;
-import com.example.pdf.PDFWriterDemo;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	AQuery aq;
+	private MenuDrawer mDrawer;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		mDrawer = MenuDrawer.attach(this);
+		mDrawer.setContentView(R.layout.activity_main);
 		
 		testSysInfo();
 		
-		aq = new AQuery(this);
+		View menuView = getLayoutInflater().inflate(R.layout.funcsmenu, null);
+		mDrawer.setMenuView(menuView);
+		
+		// The drawable that replaces the up indicator in the action bar
+		mDrawer.setSlideDrawable(R.drawable.ic_launcher);
+		// Whether the previous drawable should be shown
+		mDrawer.setDrawerIndicatorEnabled(true);
+
+		final Fragment emotions = getSupportFragmentManager().findFragmentById(R.id.emotions);
+		final Fragment mpCharts = getSupportFragmentManager().findFragmentById(R.id.mpCharts);
+		
+		aq = new AQuery(menuView);
 		
 		aq.id(R.id.demo_jword).clicked(new OnClickListener() {
 			
@@ -38,7 +52,35 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				goDemo(PDFWriterDemo.class);
+				
+			}
+		});
+		
+		aq.id(R.id.demo_emotion).clicked(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				mDrawer.closeMenu();
+				setTitle("emotions");
+				getSupportFragmentManager()
+				.beginTransaction()
+				.hide(mpCharts)
+				.show(emotions)
+				.commit();
+			}
+		});
+		
+		aq.id(R.id.demo_mpchart).clicked(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				mDrawer.closeMenu();
+				setTitle("MPChart");
+				getSupportFragmentManager()
+				.beginTransaction()
+				.hide(emotions)
+				.show(mpCharts)
+				.commit();
 			}
 		});
 	}
@@ -64,12 +106,5 @@ public class MainActivity extends Activity {
 			
 		};
 	};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
 }
